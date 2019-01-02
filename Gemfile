@@ -5,3 +5,10 @@ gem "sinatra-activerecord"
 gem "sqlite3"
 gem "pry"
 gem "require_all"
+gem "pull_tempfile"
+gem "rake"
+gem 'rspotify'
+gem 'zodiac'
+
+
+
