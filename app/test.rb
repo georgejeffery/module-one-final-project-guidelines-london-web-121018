@@ -1,12 +1,15 @@
 
+require 'pull_tempfile'
+
 url = "https://p.scdn.co/mp3-preview/ac0c6e28205e1cc4dbd8473f21431f4532120620?cid=774b29d4f13844c495f206cafdad9c86"
-filename = "ac0c6e28205e1cc4dbd8473f21431f4532120620?cid=774b29d4f13844c495f206cafdad9c86"
+filename = "track1"
 
 file = PullTempfile.pull_tempfile(url: url, original_filename: filename)
 
 puts "♫...Playing your song now...♫"
 system "afplay -t 7 #{file.path} "
 puts "That's it!"
+file.unlink 
 
 
 

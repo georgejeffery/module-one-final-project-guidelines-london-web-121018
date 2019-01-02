@@ -4,8 +4,8 @@ class CreatePlaylists < ActiveRecord::Migration[5.0]
       t.integer :user_id 
     end
 
-    create_table :playlist_songs do |t|
-      t.integer :playlist_id
+    create_table :user_songs do |t|
+      t.integer :user_id
       t.integer :song_id
     end
 
