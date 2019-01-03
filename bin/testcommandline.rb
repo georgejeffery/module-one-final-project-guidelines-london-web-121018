@@ -68,12 +68,11 @@ def return_playlist(user)
   puts table
 end
 
-def play_first_song(user)
+def play_first_song(user, song)
   # binding.pry
-  song_choice = gets.chomp.to_i
-  if user.songs[song_choice-1].preview_link != nil then
+  if user.songs[song-1].preview_link != nil then
     filename = 'track1'
-    url = user.songs[song_choice-1].preview_link
+    url = user.songs[song-1].preview_link
     file = PullTempfile.pull_tempfile(url: url, original_filename: filename)
     Whirly.start spinner:"vertical_bars" do
       Whirly.status = "♫	♫	♫	♫	♫	"
@@ -128,13 +127,14 @@ def recommended_and_play(user1)
   puts "Here is your recommended playlist (it's going to be terrible, because " + Rainbow("YOU'RE").red.underline + " terrible):"
   return_playlist(user1)
   puts "Enter the song " + Rainbow("number").red.underline + " you would like to play"
-  if gets.chomp.to_i > user1.songs.count  then
+  song_choice = gets.chomp.to_i
+  if song_choice > user1.songs.count  then
       puts "-----------------"
       csvexport(user1)
       puts "That's it, now bugger off. Your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
       puts "-----------------"
   else
-      play_first_song(user1)
+      play_first_song(user1, song_choice)
       puts "-----------------"
       csvexport(user1)
       puts "That's it, now bugger off. Your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
