@@ -8,15 +8,25 @@ def authenticate
   RSpotify.authenticate("71c2cbbd78344649836922adbd59e972", "637ac67349b84fbf9d3adc089b146366")
 end
 
+def get_date(name)
+  birthdate = gets.chomp
+  if (/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/).match(birthdate)
+    year,month,day = birthdate.split('-')
+    date = Date.new(year.to_i,month.to_i,day.to_i)
+    user1 = User.create(name:name, birthdate:date, starsign_id: Starsign.find_by(name:date.zodiac_sign).id )
+    user1
+  else
+    puts "Plese enter a valid date"
+    get_date(name)
+  end
+  user1
+end
+
 def user
   puts "Please enter your name"
   name = gets.chomp
-  puts "....and birthdate: yyyy/mm/dd"
-  birthdate = gets.chomp
-  year,month,day = birthdate.split('/')
-  date = Date.new(year.to_i,month.to_i,day.to_i)
-  user1 = User.create(name:name, birthdate:date, starsign_id: Starsign.find_by(name:date.zodiac_sign).id )
-  user1
+  puts "....and birthdate: yyyy-mm-dd"
+  get_date(name)
 
 end
 def genre(user1)
@@ -48,6 +58,11 @@ def play_first_song(user)
   filename = 'track1'
   url = user.songs[0].preview_link
   file = PullTempfile.pull_tempfile(url: url, original_filename: filename)
+  Whirly.start do
+    Whirly.status = "♫	♫	♫	"
+      sleep 1
+sleep 1
+end
 
   system "afplay -t 7 #{file.path}"
   file.unlink
@@ -62,6 +77,7 @@ def recommended_and_play(user1)
   puts "Press 1 to play the first song"
   if gets.chomp == "1" then
     play_first_song(user1)
+
     puts "That's it, now bugger off. Your ID is #{user1.id} if you wanna come again"
   else
     puts "Well, that's all folks, your ID is #{user1.id} if you wanna come again"
