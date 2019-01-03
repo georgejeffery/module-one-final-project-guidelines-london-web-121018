@@ -13,5 +13,5 @@ gem 'rainbow'
 gem 'csv'
 gem 'whirly'
 gem 'paint'
-
+gem 'artii'
 

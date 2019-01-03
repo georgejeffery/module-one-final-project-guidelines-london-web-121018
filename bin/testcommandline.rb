@@ -116,6 +116,8 @@ end
 
 def runner
   authenticate
+  a = Artii::Base.new :font => 'speed'
+  puts a.asciify('Music from the stars')
   puts "Have you been here before? We really hope you haven't, because that's " + Rainbow("BORING").red.underline + ". If you have, please enter your ID, if not, say NO"
   puts "-----------------"
   id = gets.chomp.upcase
