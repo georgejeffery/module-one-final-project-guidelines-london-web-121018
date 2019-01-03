@@ -14,4 +14,4 @@ gem 'csv'
 gem 'whirly'
 gem 'paint'
 gem 'artii'
-
+gem 'terminal-table'

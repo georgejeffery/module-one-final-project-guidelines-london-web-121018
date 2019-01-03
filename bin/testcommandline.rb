@@ -52,10 +52,20 @@ def make_songs(getRecommendations,user)
     end
 end
 
-def return_playlist(user)  
-  user.songs.each do |song|
-    puts Rainbow("♪ #{song.name}").red + " ----- " + Rainbow("#{song.artist_name} ♪").blue
-  end
+def return_playlist(user)
+  rows = []
+
+
+  # table = Terminal::Table.new :title => "Music from the stars", :headings => ['Song', 'Artist'], :rows => rows
+
+    user.songs.each do |song|
+       Rainbow("♪ #{song.name}").red + " ----- " + Rainbow("#{song.artist_name} ♪").blue
+
+      rows << [Rainbow("♪ #{song.name} ♪").red, Rainbow("♪ #{song.artist_name} ♪").blue]
+    end
+  table = Terminal::Table.new :title => "Music from the stars", :headings => ['Song', 'Artist'], :rows => rows,
+  :width => 40, :padding_left => 3, :border_x => "=", :border_i => "x"
+  puts table
 end
 
 def play_first_song(user)
@@ -67,7 +77,7 @@ def play_first_song(user)
     Whirly.start spinner:"vertical_bars" do
       Whirly.status = "♫	♫	♫	♫	♫	"
         sleep 1
-        
+
     end
 
     system "afplay -t 5 #{file.path}"
