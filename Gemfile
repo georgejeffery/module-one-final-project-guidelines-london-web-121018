@@ -10,5 +10,6 @@ gem "rake"
 gem 'rspotify'
 gem 'zodiac'
 gem 'rainbow'
+gem 'csv'
 
 

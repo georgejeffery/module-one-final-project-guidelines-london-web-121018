@@ -41,8 +41,9 @@ def make_songs(getRecommendations,user)
 end
 
 def return_playlist(user)
+  
   user.songs.each do |song|
-    puts Rainbow("#{song.name}").red + " ----- " + Rainbow("#{song.artist_name}").blue
+    puts Rainbow("♪ #{song.name}").red + " ----- " + Rainbow("#{song.artist_name} ♪").blue
   end
 end
 
@@ -57,6 +58,25 @@ def play_first_song(user)
   file.unlink
   else
   puts "NO SONG FOR YOU! Even the internet thinks you're terrible"
+  end
+end
+
+def csvexport(user)
+  puts "Would you like a csv of your playlist? Press " + Rainbow("1").yellow.underline + " for yes, and anything else to exit"
+
+  if gets.chomp == "1" then
+    CSV.open("playlist.csv", 'w') do |csv|
+    csv << Song.column_names
+      user.songs.each do |m|
+        csv << m.attributes.values
+      end
+    end
+    puts "Here you go!"
+    system %{open 'playlist.csv'}
+    puts "-----------------"
+  else
+    puts "Wrong choice!"
+    puts "-----------------"
   end
 end
 
@@ -76,9 +96,11 @@ def runner
     if gets.chomp == "1" then
       play_first_song(user1)
       puts "-----------------"
+      csvexport(user1)
       puts "That's it, now bugger off. Your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
     else
       puts "-----------------"
+      csvexport(user1)
       puts "Well, that's all folks, your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
     end
 
@@ -88,11 +110,12 @@ def runner
     puts "-----------------"
     puts "Press " + Rainbow("1").yellow.bright.underline + " to display your songs"
     puts "Press " + Rainbow("2").green.bright.underline + " to delete your songs and choose some more"
-    puts "-----------------"
     choice = gets.chomp
+    puts "-----------------"
     if choice == "1"
       return_playlist(returnuser)
       puts "-----------------"
+      csvexport(returnuser)
       puts "That's it, now bugger off. Your ID is #{returnuser.id} if you want to come again. We won't blame you if you don't."
     elsif choice == "2"
       returnuser.songs.delete_all
@@ -101,11 +124,13 @@ def runner
       return_playlist(returnuser)
       puts "Press 1 to play the first song"
       if gets.chomp == "1" then
-        play_first_song(user1)
+        play_first_song(returnuser)
         puts "-----------------"
+        csvexport(returnuser)
         puts "That's it, now bugger off. Your ID is #{returnuser.id} if you want to come again. We won't blame you if you don't."
       else
         puts "-----------------"
+        csvexport(returnuser)
         puts "Well, that's all folks, your ID is #{returnuser.id} if you want to come again. We won't blame you if you don't."
       end
     else
