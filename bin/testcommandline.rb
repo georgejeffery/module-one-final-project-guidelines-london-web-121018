@@ -12,14 +12,21 @@ def get_date(name)
   birthdate = gets.chomp
   if (/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/).match(birthdate)
     year,month,day = birthdate.split('-')
-    date = Date.new(year.to_i,month.to_i,day.to_i)
-    user1 = User.create(name:name, birthdate:date, starsign_id: Starsign.find_by(name:date.zodiac_sign).id )
-    user1
+    if Date.valid_date?(year.to_i,month.to_i,day.to_i)
+      date = Date.new(year.to_i,month.to_i,day.to_i)
+      starsignid = Starsign.find_by(name:date.zodiac_sign).id
+      user1 = User.create(name:name, birthdate:date, starsign_id: starsignid )
+
+    else
+      puts "Please enter a valid date"
+      get_date(name)
+    end
   else
-    puts "Plese enter a valid date"
+    puts "Please enter a valid date"
     get_date(name)
   end
-  user1
+  #binding.pry
+
 end
 
 def user
@@ -29,6 +36,7 @@ def user
   get_date(name)
 
 end
+
 def genre(user1)
   genre = user1.starsign.genre
   puts "You are a #{user1.starsign.symbol} and should like #{genre.name}"
@@ -91,8 +99,10 @@ def runner
   returnuser = nil
   if id == "NO" then
     user1 = user
-    #binding.pry
-    make_songs(getRecommendations(genre(user1)),user1)
+    # binding.pry
+    genrechoice = genre(user1)
+
+    make_songs(getRecommendations(genrechoice),user1)
     recommended_and_play(user1)
   elsif id.to_i == 0
 
@@ -112,7 +122,8 @@ def runner
       puts "That's it, now bugger off. Your ID is #{returnuser.id} if you wanna come again"
     elsif choice == "2"
       returnuser.songs.delete_all
-      make_songs(getRecommendations(genre(returnuser)),returnuser)
+      genrechoice = genre(returnuser)
+      make_songs(getRecommendations(genrechoice),returnuser)
       recommended_and_play(returnuser)
     else
       puts "BAD CHOICE YOU NAUGHTY PERSON"
