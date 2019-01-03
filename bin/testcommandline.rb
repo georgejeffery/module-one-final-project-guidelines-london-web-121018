@@ -91,6 +91,7 @@ def csvexport(user)
   puts "I guess you'd like a CSV copy of your playlist, you ungrateful wretch? Press " + Rainbow("1").yellow.underline + " for yes, and anything else to exit"
   puts "-----------------"
   if gets.chomp == "1" then
+    puts "-----------------"
     CSV.open("playlist.csv", 'w') do |csv|
     csv << Song.column_names
       user.songs.each do |m|
@@ -101,6 +102,7 @@ def csvexport(user)
     system %{open 'playlist.csv'}
     puts "-----------------"
   else
+    puts "-----------------"
     puts "Well that's no fun!"
     puts "-----------------"
   end
@@ -131,6 +133,7 @@ def runner
   puts "Have you been here before? We really hope you haven't, because that's " + Rainbow("BORING").red.underline + ". If you have, please enter your ID, if not, say NO"
   puts "-----------------"
   id = gets.chomp.upcase
+  puts "-----------------"
   returnuser = nil
   if id == "NO" then
     user1 = user
@@ -152,6 +155,7 @@ def runner
     puts "-----------------"
     puts "Press " + Rainbow("1").yellow.bright.underline + " to display your songs"
     puts "Press " + Rainbow("2").green.bright.underline + " to delete your songs and choose some more"
+    puts "-----------------"
     choice = gets.chomp
     puts "-----------------"
     if choice == "1"
