@@ -68,24 +68,41 @@ def return_playlist(user)
   puts table
 end
 
-def play_first_song(user)
-
-  if user.songs[0].preview_link != nil then
+def play_first_song(user, song)
+  # binding.pry
+  if user.songs[song-1].preview_link != nil then
     filename = 'track1'
-    url = user.songs[0].preview_link
+    url = user.songs[song-1].preview_link
     file = PullTempfile.pull_tempfile(url: url, original_filename: filename)
     Whirly.start spinner:"vertical_bars" do
       Whirly.status = "♫	♫	♫	♫	♫	"
         sleep 1
-
     end
-
     system "afplay -t 5 #{file.path}"
     file.unlink
   else
     puts "NO SONG FOR YOU! Even the internet thinks you're terrible"
   end
 end
+
+# def choose_a_song(user)
+#
+#   if user.songs[0].preview_link != nil then
+#     filename = 'track1'
+#     url = user.songs[0].preview_link
+#     file = PullTempfile.pull_tempfile(url: url, original_filename: filename)
+#     Whirly.start spinner:"vertical_bars" do
+#       Whirly.status = "♫	♫	♫	♫	♫	"
+#         sleep 1
+#
+#     end
+#
+#     system "afplay -t 5 #{file.path}"
+#     file.unlink
+#   else
+#     puts "NO SONG FOR YOU! Even the internet thinks you're terrible"
+#   end
+# end
 
 def csvexport(user)
   puts "I guess you'd like a CSV copy of your playlist, you ungrateful wretch? Press " + Rainbow("1").yellow.underline + " for yes, and anything else to exit"
@@ -111,17 +128,18 @@ end
 def recommended_and_play(user1)
   puts "Here is your recommended playlist (it's going to be terrible, because " + Rainbow("YOU'RE").red.underline + " terrible):"
   return_playlist(user1)
-  puts "Press " + Rainbow("1").yellow.bright.underline + " to play the first song"
-  if gets.chomp == "1" then
-      play_first_song(user1)
+  puts "Enter the song " + Rainbow("number").red.underline + " you would like to play"
+  song_choice = gets.chomp.to_i
+  if song_choice > user1.songs.count  then
       puts "-----------------"
       csvexport(user1)
       puts "That's it, now bugger off. Your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
       puts "-----------------"
   else
+      play_first_song(user1, song_choice)
       puts "-----------------"
       csvexport(user1)
-      puts "That's all folks, your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
+      puts "That's it, now bugger off. Your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
       puts "-----------------"
   end
 end
