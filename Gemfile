@@ -9,6 +9,6 @@ gem "pull_tempfile"
 gem "rake"
 gem 'rspotify'
 gem 'zodiac'
-
+gem 'rainbow'
 
 
