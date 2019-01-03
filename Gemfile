@@ -11,5 +11,7 @@ gem 'rspotify'
 gem 'zodiac'
 gem 'rainbow'
 gem 'csv'
+gem 'whirly'
+gem 'paint'
 
 
