@@ -1,17 +1,12 @@
 require_relative '../config/environment'
-
-
-require 'pry'
-require 'rspotify'
-
 def authenticate
   RSpotify.authenticate("71c2cbbd78344649836922adbd59e972", "637ac67349b84fbf9d3adc089b146366")
 end
 
 def user
-  puts "Please enter your name"
+  puts "Please enter your stupid name"
   name = gets.chomp
-  puts "....and birthdate: yyyy/mm/dd"
+  puts "....and stupid birthdate: yyyy/mm/dd"
   birthdate = gets.chomp
   puts "-----------------"
   year,month,day = birthdate.split('/')
@@ -22,7 +17,7 @@ def user
 end
 def genre(user1)
   genre = user1.starsign.genre
-  puts "You are a #{user1.starsign.name} " + Rainbow("#{user1.starsign.symbol}").red.bright + " and should like #{genre.name}"
+  puts "You are a #{user1.starsign.name} " + Rainbow("#{user1.starsign.symbol}").red.bright + " and should like #{genre.name}. " + Rainbow("EWWWWWWW").red.underline
   puts "-----------------"
   genre
 end
@@ -62,7 +57,7 @@ def play_first_song(user)
 end
 
 def csvexport(user)
-  puts "Would you like a csv of your playlist? Press " + Rainbow("1").yellow.underline + " for yes, and anything else to exit"
+  puts "I guess you'd like a CSV copy of your playlist, you ungrateful wretch? Press " + Rainbow("1").yellow.underline + " for yes, and anything else to exit"
 
   if gets.chomp == "1" then
     CSV.open("playlist.csv", 'w') do |csv|
@@ -82,7 +77,7 @@ end
 
 def runner
   authenticate
-  puts "Have you been here before? If so, please enter your ID, if not, say NO"
+  puts "Have you been here before? We really hope you haven't, because that's " + Rainbow("BORING").red.underline + ". If you have, please enter your ID, if not, say NO"
   puts "-----------------"
   id = gets.chomp
   returnuser = nil
@@ -90,7 +85,7 @@ def runner
     user1 = user
     #binding.pry
     make_songs(getRecommendations(genre(user1)),user1)
-    puts "Here is your recommended playlist:"
+    puts "Here is your recommended playlist (it's going to be terrible, because " + Rainbow("YOU'RE").red.underline + " terrible):"
     return_playlist(user1)
     puts "Press " + Rainbow("1").yellow.bright.underline + " to play the first song"
     if gets.chomp == "1" then
@@ -120,7 +115,7 @@ def runner
     elsif choice == "2"
       returnuser.songs.delete_all
       make_songs(getRecommendations(genre(returnuser)),returnuser)
-      puts "Here is your recommended playlist:"
+      puts "Here is your recommended playlist (it's going to be terrible, because " + Rainbow("YOU'RE").red.underline + " terrible):"
       return_playlist(returnuser)
       puts "Press 1 to play the first song"
       if gets.chomp == "1" then
