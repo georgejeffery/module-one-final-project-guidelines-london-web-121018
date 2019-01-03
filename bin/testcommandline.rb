@@ -70,7 +70,7 @@ def csvexport(user)
     system %{open 'playlist.csv'}
     puts "-----------------"
   else
-    puts "Wrong choice!"
+    puts "Well that's no fun!"
     puts "-----------------"
   end
 end
@@ -96,7 +96,7 @@ def runner
     else
       puts "-----------------"
       csvexport(user1)
-      puts "Well, that's all folks, your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
+      puts "That's all folks, your ID is #{user1.id} if you want to come again. We won't blame you if you don't."
     end
 
   else
@@ -126,7 +126,7 @@ def runner
       else
         puts "-----------------"
         csvexport(returnuser)
-        puts "Well, that's all folks, your ID is #{returnuser.id} if you want to come again. We won't blame you if you don't."
+        puts "That's all folks, your ID is #{returnuser.id} if you want to come again. We won't blame you if you don't."
       end
     else
       puts "BAD CHOICE YOU NAUGHTY PERSON"
