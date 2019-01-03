@@ -56,6 +56,18 @@ def play_first_song(user)
   end
 end
 
+def recommended_and_play(user1)
+  puts "Here is your recommended playlist:"
+  puts return_playlist(user1)
+  puts "Press 1 to play the first song"
+  if gets.chomp == "1" then
+    play_first_song(user1)
+    puts "That's it, now bugger off. Your ID is #{user1.id} if you wanna come again"
+  else
+    puts "Well, that's all folks, your ID is #{user1.id} if you wanna come again"
+  end
+end
+
 def runner
   authenticate
   puts "Have you been here before? If so, please enter your ID, if not, say NO"
@@ -65,16 +77,14 @@ def runner
     user1 = user
     #binding.pry
     make_songs(getRecommendations(genre(user1)),user1)
-    puts "Here is your recommended playlist:"
-    puts return_playlist(user1)
-    puts "Press 1 to play the first song"
-    if gets.chomp == "1" then
-      play_first_song(user1)
-      puts "That's it, now bugger off. Your ID is #{user1.id} if you wanna come again"
-    else
-      puts "Well, that's all folks, your ID is #{user1.id} if you wanna come again"
-    end
+    recommended_and_play(user1)
+  elsif id.to_i == 0
 
+    puts "I don't understand! Please enter an ID or the word NO."
+    runner
+  elsif !(User.exists?(:id => id))
+    puts "I don't recognize that ID! Please try again"
+    runner
   else
     returnuser = User.find(id)
     puts "Great! Nice to have you back, please choose an option"
@@ -87,21 +97,16 @@ def runner
     elsif choice == "2"
       returnuser.songs.delete_all
       make_songs(getRecommendations(genre(returnuser)),returnuser)
-      puts "Here is your recommended playlist:"
-      puts return_playlist(returnuser)
-      puts "Press 1 to play the first song"
-      if gets.chomp == "1" then
-        play_first_song(user1)
-        puts "That's it, now bugger off. Your ID is #{returnuser.id} if you wanna come again"
-      else
-        puts "Well, that's all folks, your ID is #{returnuser.id} if you wanna come again"
-      end
+      recommended_and_play(returnuser)
     else
       puts "BAD CHOICE YOU NAUGHTY PERSON"
       exit
     end
   end
 end
+
+
+
 
 
 runner
